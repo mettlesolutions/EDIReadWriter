@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/databene-commons-1.0.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/databene-formats-1.0.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/edifatto-3.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/edifatto-3.0.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/freemarker-2.3.20.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/poi-3.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/poi-ooxml-3.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/poi-ooxml-schemas-3.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/xercesImpl-2.11.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paddu/Downloads/mettle/mettle/edifatto-3.0.0-dist/edifatto-3.0.0/lib/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/connectlibs/x12999.jar"/>
+	<classpathentry kind="lib" path="C:/connectlibs/x12278.jar"/>
+	<classpathentry kind="lib" path="C:/connectlibs/x12275.jar"/>
+	<classpathentry kind="lib" path="C:/connectlibs/x12275314.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
