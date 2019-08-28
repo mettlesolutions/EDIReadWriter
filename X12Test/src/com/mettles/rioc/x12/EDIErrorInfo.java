@@ -4,6 +4,21 @@ import java.util.ArrayList;
 
 public class EDIErrorInfo {
 	
+	private String senderId;
+	public String getSenderId() {
+		return senderId;
+	}
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
+	}
+	public String getRcvrId() {
+		return rcvrId;
+	}
+	public void setRcvrId(String rcvrId) {
+		this.rcvrId = rcvrId;
+	}
+
+	private String rcvrId;
 
 	public String getErrorCode() {
 		return errorCode;

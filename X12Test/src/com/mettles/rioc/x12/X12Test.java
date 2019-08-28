@@ -1,44 +1,10 @@
 package com.mettles.rioc.x12;
 
-import com.mettles.rioc.BHTBeginningOfHierarchicalTransaction;
-import com.mettles.rioc.HLRequesterLevel2000B;
-import com.mettles.rioc.HLSubscriberLevel2000C;
-import com.mettles.rioc.HLUtilizationManagementOrganizationUMOLevel2000A;
-import com.mettles.rioc.Loop2000A;
-import com.mettles.rioc.Loop2000B;
-import com.mettles.rioc.Loop2000C;
-import com.mettles.rioc.Loop2010A;
-import com.mettles.rioc.Loop2010C;
-import com.mettles.rioc.Loop2000F;
-import com.mettles.rioc.Loop2010EA;
-import com.mettles.rioc.NM1PatientEventProviderName2010EA;
-import com.mettles.rioc.N3PatientEventProviderAddress2010EA;
-import com.mettles.rioc.N4PatientEventProviderCityStateZIPCode2010EA;
-import com.mettles.rioc.NM1SubscriberName2010C;
-import com.mettles.rioc.NM1UtilizationManagementOrganizationUMOName2010A;
-import com.mettles.rioc.SETransactionSetTrailer;
-import com.mettles.rioc.SV1ProfessionalService2000F;
-import com.mettles.rioc.SV2InstitutionalServiceLine2000F;
-import com.mettles.rioc.HLServiceLevel2000F;
-import com.mettles.rioc.Loop2010B;
-import com.mettles.rioc.N3RequesterAddress2010B;
-import com.mettles.rioc.N4RequesterCityStateZIPCode2010B;
-import com.mettles.rioc.NM1RequesterName2010B;
-import com.mettles.rioc.N3SubscriberAddress2010C;
-import com.mettles.rioc.N4SubscriberCityStateZIPCode2010C;
-import com.mettles.rioc.DMGSubscriberDemographicInformation2010C;
-import com.mettles.rioc.PERRequesterContactInformation2010B;
-import com.mettles.rioc.STTransactionSetHeader;
-import com.mettles.rioc.PWKAdditionalServiceInformation2000F;
-import com.mettles.rioc.HLPatientEventLevel2000E;
-import com.mettles.rioc.UMHealthCareServicesReviewInformation2000E;
-import com.mettles.rioc.DTPEventDate2000E;
-import com.mettles.rioc.Loop2000E;
-import com.mettles.rioc.HIPatientDiagnosis2000E;
-import com.mettles.rioc.PWKAdditionalPatientInformation2000E;
-import com.mettles.rioc.X12005010X217278A1;
 
-import org.databene.commons.xml.XMLUtil;
+import java.util.Hashtable;
+
+//import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+//import org.apache.poi.ss.usermodel.*;
 
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -48,34 +14,85 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.io.File;
 
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 public class X12Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		X12Test testobj = new X12Test();
-		testobj.writeEDItoXML();
-		String EDIText = "ISA*00*          *00*          *ZZ*111222001      *ZZ*360373         *190716*1238*^*00501*000000024*0*T*+~\n"
-				+ "GS*HI*111222001*360373*20190716*123848*121901*X*005010X217~\n" + "ST*278*121901*005010X217~\n"
-				+ "BHT*0007*11*000121901*20190716*123848*19~\n" + "HL*1**20*1~\n" + "NM1*X3*2*CGS*****PI*15004~\n"
-				+ "HL*2*1*21*1~\n" + "NM1*1P*2*Unitypoint at Home*****XX*1427351956~\n" + "HL*3*2*22*1~\n"
-				+ "NM1*IL*1*Stamm*Jody****MI*517943840A~\n" + "HL*4*3*EV*1~\n" + "TRN*1*CPN000000008822*9ESMDSYSTM~\n"
-				+ "UM*HS*I**32+A~\n" + "HCR*A4**0U~\n" + "MSG*Request accepted; awaiting supporting documentation~\n"
-				+ "NM1*DK*1*Weber*Kathleen****XX*1285612259~\n" + "NM1*FA*2*Unitypoint at Home*****XX*1427351956~\n"
-				+ "NM1*71*1*Weber*Kathleen****XX*1285612259~\n" + "HL*5*4*SS*0~\n" + "HCR*A4**0U~\n"
-				+ "REF*NT*ESMDNUMBER~\n" + "HL*6*4*SS*0~\n" + "HCR*A4**0U~\n" + "REF*NT*ESMDNUMBER~\n"
-				+ "HL*7*4*SS*0~\n" + "HCR*A4**0U~\n" + "REF*NT*ESMDNUMBER~\n" + "SE*26*121901~\n" + "GE*1*121901~\n"
-				+ "IEA*1*000000024~";
-		testobj.parseEDI(EDIText);
+		X12278EDIReadWriter testobj = new X12278EDIReadWriter();
+		Hashtable<String,String> hhHastable = new Hashtable<String,String>();
+		hhHastable.put("AttendingProviderEntityIdentCode","71");
+		hhHastable.put("FacilityProviderEntityIdentCode","FA");
+		hhHastable.put("OrderingProviderEntityIdentCode","DK");
+		hhHastable.put("ServiceProviderEntityIdentCode","S");
+		hhHastable.put("ReferringProviderEntityIdentCode","DN");
+		hhHastable.put("OperatingPhysicianEntityIdentCode","72");
+	//	File file = new File("C://Users//paddu//Downloads//mettle//mettle//CGS_0702//hhh_testdata.xlsx");
+		//processFile(file,hhHastable);
+		//testobj.EDIWriter(hhHastable,"","","");
+		//testobj.
+		String EDIText = "ISA*00*          *00*          *ZZ*111222001      *ZZ*360373         *190718*1938*^*00501*000000038*0*T*+~\r\n" + 
+				"GS*HI*111222001*360373*20190718*19385828*121901*X*005010X217~\r\n" + 
+				"ST*278*121901*005010X217~\r\n" + 
+				"BHT*0007*11*000121901*20190718*19385828*18~\r\n" + 
+				"HL*1**20*1~\r\n" + 
+				"NM1*X3*2*CGS*****PI*15004~\r\n" + 
+				"HL*2*1*21*1~\r\n" + 
+				"NM1*1P*2*Unitypoint at Home*****XX*1427351956~\r\n" + 
+				"HL*3*2*22*1~\r\n" + 
+				"NM1*IL*1*Martin*Suzan****MI*513325515C1~\r\n" + 
+				"HL*4*3*EV*1~\r\n" + 
+				"TRN*1*FSP000000008824*9ESMDSYSTM~\r\n" + 
+				"UM*HS*I**32+A~\r\n" + 
+				"HCR*A2*15H00000000336~\r\n" + 
+				"HI*ABK+R130~\r\n" + 
+				"MSG*HH07F~\r\n" + 
+				"NM1*DK*1*Weber*Kathleen****XX*1285612259~\r\n" + 
+				"NM1*FA*2*Unitypoint at Home*****XX*1427351956~\r\n" + 
+				"NM1*71*1*Weber*Kathleen****XX*1285612259~\r\n" + 
+				"HL*5*4*SS*0~\r\n" + 
+				"HCR*A1*15H00000000336~\r\n" + 
+				"DTP*472*RD8*20190201-20190401~\r\n" + 
+				"SV2**HC+G0299**UN*10~\r\n" + 
+				"HL*6*4*SS*0~\r\n" + 
+				"HCR*A3~\r\n" + 
+				"REF*NT*15H00000000336~\r\n" + 
+				"DTP*472*RD8*20190201-20190401~\r\n" + 
+				"SV2**HC+G0156**UN*4~\r\n" + 
+				"MSG*HH07F~\r\n" + 
+				"SE*28*121901~\r\n" + 
+				"GE*1*121901~\r\n" + 
+				"IEA*1*000000038~";
+		X12278EDIResponse response = testobj.parse278ResponseEDI(EDIText);
+		System.out.println(""+response.getClienttransid());
+		System.out.println(""+response.getEsmdtransid());
+		if(response.getMessage() != null)
+			System.out.println(""+response.getMessage());
+		
+		System.out.println(""+response.getConsolidated_hcr().getAction_code());
+		System.out.println(""+response.getConsolidated_hcr().getReason_code());
+		System.out.println(""+response.getConsolidated_hcr().getUtn_value());
+		
+		if(response.getService_healthcare().size() > 0)
+		{
+			Iterator<HealthCareReviewInfo> ss_hcrit = response.getService_healthcare().iterator();
+			while(ss_hcrit.hasNext())
+			{
+				HealthCareReviewInfo temp = ss_hcrit.next();
+				System.out.println(temp.getAction_code());
+				System.out.println(temp.getReason_code());
+				System.out.println(temp.getSrv_message());
+				System.out.println(temp.getUtn_value());
+				System.out.println(temp.getService_code());
+			}
+		}
+		
 
 		AckReadWriter ackwriter = new AckReadWriter();
-		ackwriter.writeAck();
+		ackwriter.writeAck(true, "360373", "111222001");
 		String EDIErr = "ISA*00*          *00*          *ZZ*111222001      *ZZ*360373         *190716*1734*^*00501*000000001*0*P*:~\r\n" + 
 				"GS*FA*111222001*360373*20190716*173401*1*X*005010X231A1~\r\n" + 
 				"ST*999*0001*005010X231A1~\r\n" + 
@@ -110,647 +127,59 @@ public class X12Test {
 		X12275EDIWriter x12275ediwrtr = new X12275EDIWriter();
 		x12275ediwrtr.CreateEDI(); 
 		X12275314EDIWriter x12275pwk = new X12275314EDIWriter();
-		x12275pwk.CreateEDI();
+		UnSolicitedPWKElems temp = new UnSolicitedPWKElems();
+		x12275pwk.CreateEDI(temp,"","");
 		//System.out.println(UUID.randomUUID().toString());
 	}
 
-	public Loop2010C SetSubscriberInfo() {
-		Loop2010C subNM1Loop = new Loop2010C();
-		NM1SubscriberName2010C subNM1Segment = new NM1SubscriberName2010C();
-		subNM1Segment.setNM101EntityIdentifierCode("IL");
-		subNM1Segment.setNM102EntityTypeQualifier("1");
-		subNM1Segment.setNM103SubscriberLastName("Mirmovich"); // replace with subscriber last name
-		subNM1Segment.setNM104SubscriberFirstName("Mikhail"); // replace with subscriber first name
-		subNM1Segment.setNM105SubscriberMiddleNameOrInitial(""); // replace with sub middle name
-		subNM1Segment.setNM106SubscriberNamePrefix(""); // replace with sub name prefix
-		subNM1Segment.setNM107SubscriberNameSuffix(""); // replace with sub name suffix
-		subNM1Segment.setNM108IdentificationCodeQualifier("MI");
-		subNM1Segment.setNM109SubscriberPrimaryIdentifier("524897298M");// replace with Sub ID
-		subNM1Loop.setNM1SubscriberName2010C(subNM1Segment);
-		N3SubscriberAddress2010C subAddress = new N3SubscriberAddress2010C();
-		subAddress.setN301SubscriberAddressLine("1763 Pitkin Cir"); // replace with sub addr line 1
-		// subAddress.setN302SubscriberAddressLine(""); // replace with sub addr line 2
-		subNM1Loop.setN3SubscriberAddress2010C(subAddress);
-		N4SubscriberCityStateZIPCode2010C subcitystate = new N4SubscriberCityStateZIPCode2010C();
-		subcitystate.setN401SubscriberCityName("Aurora"); // replace with sub city name
-		subcitystate.setN402SubscriberStateCode("CO"); // replace with sub state code
-		subcitystate.setN403SubscriberPostalZoneOrZIPCode("80017"); // replace with sub zip cpde
-		subNM1Loop.setN4SubscriberCityStateZIPCode2010C(subcitystate);
-		DMGSubscriberDemographicInformation2010C subperinfo = new DMGSubscriberDemographicInformation2010C();
-		subNM1Loop.setDMGSubscriberDemographicInformation2010C(subperinfo);
-		subperinfo.setDMG01DateTimePeriodFormatQualifier("D8");
-		subperinfo.setDMG02SubscriberBirthDate("19380811"); // replace with sub DOB
-		subperinfo.setDMG03SubscriberGenderCode("M"); // replace with sub gender
-		subNM1Loop.setDMGSubscriberDemographicInformation2010C(subperinfo);
-		return subNM1Loop;
-	}
+/*	 public static Hashtable<String,String> processFile(File file, Hashtable<String,String> inputVals) {
+	        // import data
+	        // Creating a Workbook from an Excel file (.xls or .xlsx)
+	        try {
+	            System.out.println("Entering into process file");
+	            Workbook workbook = WorkbookFactory.create(file,"esmdrelease");
 
-	public Loop2000F setServiceLevelInfo(String ProcedureCode, String Quantity, String hiearachialIDNumber,
-			String parentID, boolean bSV1, String pwk) {
-		Loop2000F loop2000f = new Loop2000F();
-		HLServiceLevel2000F hlServiceLevel2000F = new HLServiceLevel2000F();
-		hlServiceLevel2000F.setHL01HierarchicalIDNumber(hiearachialIDNumber);
-		hlServiceLevel2000F.setHL02HierarchicalParentIDNumber(parentID);
-		hlServiceLevel2000F.setHL03HierarchicalLevelCode("SS");
-		hlServiceLevel2000F.setHL04HierarchicalChildCode("0");
-		loop2000f.setHLServiceLevel2000F(hlServiceLevel2000F);
-		if (bSV1) {
-			SV1ProfessionalService2000F sv1ProfessionalService2000F = new SV1ProfessionalService2000F();
-			SV1ProfessionalService2000F.SV101CompositeMedicalProcedureIdentifier2000F sv1procedureinfo = new SV1ProfessionalService2000F.SV101CompositeMedicalProcedureIdentifier2000F();
-			sv1procedureinfo.setSV10101ProductOrServiceIDQualifier("HC");
-			sv1procedureinfo.setSV10102ProcedureCode(ProcedureCode);
-			sv1ProfessionalService2000F.setSV101CompositeMedicalProcedureIdentifier2000F(sv1procedureinfo);
-			sv1ProfessionalService2000F.setSV102ServiceLineAmount("");
-			sv1ProfessionalService2000F.setSV103UnitOrBasisForMeasurementCode("UN");
-			sv1ProfessionalService2000F.setSV104ServiceUnitCount(Quantity);
-			loop2000f.setSV1ProfessionalService2000F(sv1ProfessionalService2000F);
-		} else {
-			SV2InstitutionalServiceLine2000F sv2InstitutionalServiceLine2000F = new SV2InstitutionalServiceLine2000F();
-			sv2InstitutionalServiceLine2000F.setSV201ServiceLineRevenueCode(""); // replace with revenue code
-			SV2InstitutionalServiceLine2000F.SV202CompositeMedicalProcedureIdentifier2000F sv202CompositeMedicalProcedureIdentifier2000F = new SV2InstitutionalServiceLine2000F.SV202CompositeMedicalProcedureIdentifier2000F();
-			sv202CompositeMedicalProcedureIdentifier2000F.setSV20201ProductOrServiceIDQualifier("HC");
-			sv202CompositeMedicalProcedureIdentifier2000F.setSV20202ProcedureCode(ProcedureCode);
-			sv2InstitutionalServiceLine2000F
-					.setSV202CompositeMedicalProcedureIdentifier2000F(sv202CompositeMedicalProcedureIdentifier2000F);
-			sv2InstitutionalServiceLine2000F.setSV203ServiceLineAmount("");
-			sv2InstitutionalServiceLine2000F.setSV204UnitOrBasisForMeasurementCode("UN");
-			sv2InstitutionalServiceLine2000F.setSV205ServiceUnitCount(Quantity);
-			loop2000f.setSV2InstitutionalServiceLine2000F(sv2InstitutionalServiceLine2000F);
-		}
-		PWKAdditionalServiceInformation2000F pwkinfo = new PWKAdditionalServiceInformation2000F();
-		pwkinfo.setPWK01AttachmentReportTypeCode("77"); // replace with attachment report type code
-		pwkinfo.setPWK02ReportTransmissionCode("FX"); // replace with transmission code
-		pwkinfo.setPWK03("");
-		pwkinfo.setPWK04("");
-		pwkinfo.setPWK05IdentificationCodeQualifier("AC");
-		pwkinfo.setPWK06AttachmentControlNumber(pwk);
-		loop2000f.getPWKAdditionalServiceInformation2000F().add(pwkinfo);
+	            // Retrieving the number of sheets in the Workbook
+	            System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
+	            Sheet sheet = workbook.getSheetAt(4);
 
-		return loop2000f;
-	}
+	            // Create a DataFormatter to format and get each cell's value as String
+	            DataFormatter dataFormatter = new DataFormatter();
 
-	public Loop2000E setPatientEventLevelInfo() {
-		Loop2000E pateventloop = new Loop2000E();
-		HLPatientEventLevel2000E HLPatientEvent = new HLPatientEventLevel2000E();
-		HLPatientEvent.setHL01HierarchicalIDNumber("4");
-		HLPatientEvent.setHL02HierarchicalParentIDNumber("3");
-		HLPatientEvent.setHL03HierarchicalLevelCode("EV");
-		HLPatientEvent.setHL04HierarchicalChildCode("1");
-		pateventloop.setHLPatientEventLevel2000E(HLPatientEvent);
-		UMHealthCareServicesReviewInformation2000E UMEventInfo = new UMHealthCareServicesReviewInformation2000E();
-		UMEventInfo.setUM01RequestCategoryCode("HS");
-		UMEventInfo.setUM02CertificationTypeCode("I");
-		UMEventInfo.setUM03ServiceTypeCode(""); // replace service type code
-		UMHealthCareServicesReviewInformation2000E.UM04HealthCareServiceLocationInformation2000E UM04Info = new UMHealthCareServicesReviewInformation2000E.UM04HealthCareServiceLocationInformation2000E();
-		UM04Info.setUM0401FacilityTypeCode("32"); // replace with bill type POS
-		UM04Info.setUM0402FacilityCodeQualifier("A");
-		// UM04HealthCareServiceLocationInformation2000E UM04info = new
-		// UMHealthCareServicesReviewInformation2000E.UM04HealthCareServiceLocationInformation2000E();
-		UMEventInfo.setUM04HealthCareServiceLocationInformation2000E(UM04Info);
-		pateventloop.setUMHealthCareServicesReviewInformation2000E(UMEventInfo);
-		DTPEventDate2000E dtpEventDate2000E = new DTPEventDate2000E();
-		dtpEventDate2000E.setDTP01DateTimeQualifier("AAH");
-		dtpEventDate2000E.setDTP02DateTimePeriodFormatQualifier("RD8"); // replace with D8 if it is not range
-		dtpEventDate2000E.setDTP03ProposedOrActualEventDate("20190801-20190305"); // replace with event start and end
-																					// date
-		pateventloop.setDTPEventDate2000E(dtpEventDate2000E);
-		HIPatientDiagnosis2000E hiPatientDiagnosis2000E = new HIPatientDiagnosis2000E();
-		HIPatientDiagnosis2000E.HI01HealthCareCodeInformation2000E HI01DiagCode = new HIPatientDiagnosis2000E.HI01HealthCareCodeInformation2000E();
-		HI01DiagCode.setHI0101DiagnosisTypeCode("ABK"); // replace with primary diagnosise code type
-		HI01DiagCode.setHI0102DiagnosisCode("G1221"); // replace with primary diagnosis code
-		hiPatientDiagnosis2000E.setHI01HealthCareCodeInformation2000E(HI01DiagCode);
-		pateventloop.setHIPatientDiagnosis2000E(hiPatientDiagnosis2000E);
-		PWKAdditionalPatientInformation2000E pwkInfo = new PWKAdditionalPatientInformation2000E();
-		pwkInfo.setPWK01AttachmentReportTypeCode("77"); // replace with attachment report type code
-		pwkInfo.setPWK02ReportTransmissionCode("FX"); // replace with transmission code
-		pwkInfo.setPWK03("");
-		pwkInfo.setPWK04("");
-		pwkInfo.setPWK05IdentificationCodeQualifier("AC");
-		String uniquestr = "CGS" + "HBOSPRACHATACHCNTLNJL1VA"; // replace with RC name and PA type
-		Date date = Calendar.getInstance().getTime();
-		DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSS");
-		String strDate = dateFormat.format(date);
-		uniquestr = uniquestr + strDate;
-		pwkInfo.setPWK06AttachmentControlNumber(uniquestr);
-		pateventloop.getPWKAdditionalPatientInformation2000E().add(pwkInfo);
-		// Replace Ordering Provider Info
-		ProviderIdentityInfo prov = new ProviderIdentityInfo();
-		prov.setProviderEntityIdentCode("DK"); // ordering provider code
-		prov.setProviderEntityTypeQualifier("1"); // replace with ordering provider qualifier
-		prov.setProviderLastName("Weber");
-		prov.setProviderFirstName("Kathleen");
-		prov.setProviderMiddleName("");
-		prov.setProviderNPI("1285612259");
-		prov.setProviderAddressLine1("610 S Maple Ave");
-		prov.setProviderCity("Oak Park");
-		prov.setProviderState("IL");
-		prov.setProviderZIPCode("60304");
-		pateventloop.getLoop2010EA().add(setProviderInfo(prov));
-		ProviderIdentityInfo atteprov = new ProviderIdentityInfo();
-		atteprov.setProviderEntityIdentCode("71"); // Attending provider code
-		atteprov.setProviderEntityTypeQualifier("1"); // replace with Attending provider qualifier
-		atteprov.setProviderLastName("Weber");
-		atteprov.setProviderFirstName("Kathleen");
-		atteprov.setProviderMiddleName("");
-		atteprov.setProviderNPI("1285612259");
-		atteprov.setProviderAddressLine1("610 S Maple Ave");
-		atteprov.setProviderCity("Oak Park");
-		atteprov.setProviderState("IL");
-		atteprov.setProviderZIPCode("60304");
-		pateventloop.getLoop2010EA().add(setProviderInfo(atteprov));
-		ProviderIdentityInfo facilityprov = new ProviderIdentityInfo();
-		facilityprov.setProviderEntityIdentCode("FA"); // Facility provider code
-		facilityprov.setProviderEntityTypeQualifier("2"); // replace with Facility provider qualifier
-		facilityprov.setProviderLastName("Unitypoint at Home");
-		facilityprov.setProviderFirstName("");
-		facilityprov.setProviderMiddleName("");
-		facilityprov.setProviderNPI("1427351956");
-		facilityprov.setProviderAddressLine1("106 19th Ave 101");
-		facilityprov.setProviderCity("Moline");
-		facilityprov.setProviderState("IL");
-		facilityprov.setProviderZIPCode("61265");
-		pateventloop.getLoop2010EA().add(setProviderInfo(facilityprov));
-		if (false) { // service provider code != null
-			ProviderIdentityInfo serviceprov = new ProviderIdentityInfo();
-			serviceprov.setProviderEntityIdentCode("SJ"); // service provider code
-			serviceprov.setProviderEntityTypeQualifier("1"); // replace with service provider qualifier
-			serviceprov.setProviderLastName("");
-			serviceprov.setProviderFirstName("");
-			serviceprov.setProviderMiddleName("");
-			serviceprov.setProviderNPI("");
-			serviceprov.setProviderAddressLine1("");
-			serviceprov.setProviderCity("");
-			serviceprov.setProviderState("");
-			serviceprov.setProviderZIPCode("");
-			pateventloop.getLoop2010EA().add(setProviderInfo(serviceprov));
-		}
-		if (false) { // referring provider code != null
-			ProviderIdentityInfo refrov = new ProviderIdentityInfo();
-			refrov.setProviderEntityIdentCode("DN"); // referring provider code
-			refrov.setProviderEntityTypeQualifier("1"); // replace with referring provider qualifier
-			refrov.setProviderLastName("");
-			refrov.setProviderFirstName("");
-			refrov.setProviderMiddleName("");
-			refrov.setProviderNPI("");
-			refrov.setProviderAddressLine1("");
-			refrov.setProviderCity("");
-			refrov.setProviderState("");
-			refrov.setProviderZIPCode("");
-			pateventloop.getLoop2010EA().add(setProviderInfo(refrov));
-		}
-		if (false) { // operating provider code != null
-			ProviderIdentityInfo operprov = new ProviderIdentityInfo();
-			operprov.setProviderEntityIdentCode("72"); // operating provider code
-			operprov.setProviderEntityTypeQualifier("1"); // replace with operating provider qualifier
-			operprov.setProviderLastName("");
-			operprov.setProviderFirstName("");
-			operprov.setProviderMiddleName("");
-			operprov.setProviderNPI("");
-			operprov.setProviderAddressLine1("");
-			operprov.setProviderCity("");
-			operprov.setProviderState("");
-			operprov.setProviderZIPCode("");
-			pateventloop.getLoop2010EA().add(setProviderInfo(operprov));
-		}
-		pateventloop.getLoop2000F().add(setServiceLevelInfo("G0299", "5", "5", "4", false, uniquestr)); // replace
-																										// iterate
-																										// through
-																										// service lines
-		return pateventloop;
-	}
-
-	public Loop2010EA setProviderInfo(ProviderIdentityInfo prov) {
-		Loop2010EA loop2010ea = new Loop2010EA();
-		NM1PatientEventProviderName2010EA nm1PatientEventProviderName2010EA = new NM1PatientEventProviderName2010EA();
-		nm1PatientEventProviderName2010EA.setNM101EntityIdentifierCode(prov.getProviderEntityIdentCode()); // replace
-																											// with
-																											// OrderingProviderEntityIdentCode
-		nm1PatientEventProviderName2010EA.setNM102EntityTypeQualifier(prov.getProviderEntityTypeQualifier()); // replace
-																												// with
-																												// size
-																												// of
-																												// the
-																												// org
-		nm1PatientEventProviderName2010EA
-				.setNM103PatientEventProviderLastOrOrganizationName(prov.getProviderLastName());// replace with provider
-																								// last name
-		nm1PatientEventProviderName2010EA.setNM104PatientEventProviderFirstName(prov.getProviderFirstName());
-		if (prov.getProviderMiddleName() != null)
-			nm1PatientEventProviderName2010EA.setNM105PatientEventProviderMiddleName(prov.getProviderMiddleName());
-		else
-			nm1PatientEventProviderName2010EA.setNM105PatientEventProviderMiddleName("");
-		if (prov.getProviderPrefix() != null)
-			nm1PatientEventProviderName2010EA.setNM106PatientEventProviderNamePrefix(prov.getProviderPrefix());
-		else
-			nm1PatientEventProviderName2010EA.setNM106PatientEventProviderNamePrefix("");
-		if (prov.getProviderSuffix() != null)
-			nm1PatientEventProviderName2010EA.setNM107PatientEventProviderNameSuffix(prov.getProviderSuffix());
-		else
-			nm1PatientEventProviderName2010EA.setNM107PatientEventProviderNameSuffix("");
-
-		nm1PatientEventProviderName2010EA.setNM108IdentificationCodeQualifier("XX");
-		nm1PatientEventProviderName2010EA.setNM109PatientEventProviderIdentifier(prov.getProviderNPI());
-		loop2010ea.setNM1PatientEventProviderName2010EA(nm1PatientEventProviderName2010EA);
-		N3PatientEventProviderAddress2010EA patientEventProviderAddress2010EA = new N3PatientEventProviderAddress2010EA();
-		patientEventProviderAddress2010EA.setN301PatientEventProviderAddressLine(prov.getProviderAddressLine1());
-		if (prov.getProviderAddressLine2() != null) {
-			patientEventProviderAddress2010EA.setN302PatientEventProviderAddressLine(prov.getProviderAddressLine2());
-		}
-		loop2010ea.setN3PatientEventProviderAddress2010EA(patientEventProviderAddress2010EA);
-		N4PatientEventProviderCityStateZIPCode2010EA patientEventProviderCityStateZIPCode2010EA = new N4PatientEventProviderCityStateZIPCode2010EA();
-		patientEventProviderCityStateZIPCode2010EA.setN401PatientEventProviderCityName(prov.getProviderCity());
-		patientEventProviderCityStateZIPCode2010EA.setN402PatientEventProviderStateCode(prov.getProviderState());
-		patientEventProviderCityStateZIPCode2010EA
-				.setN403PatientEventProviderPostalZoneOrZIPCode(prov.getProviderZIPCode());
-		loop2010ea.setN4PatientEventProviderCityStateZIPCode2010EA(patientEventProviderCityStateZIPCode2010EA);
-		return loop2010ea;
-	}
-   
-	  public String getHeader(String senderIDorig, String senderID, String recvIDorig, String recvID, String Date) {
-	        Date date = Calendar.getInstance().getTime();
-	        DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
-	        String strDate = dateFormat.format(date); 
-	        DateFormat timeFormat = new SimpleDateFormat("HHmm");
-	        String strtime = timeFormat.format(date); 
-	        DateFormat fulltimeFormat = new SimpleDateFormat("HHmmssSS");
-	        String strfulltime = fulltimeFormat.format(date); 
-	    	String header = "ISA*00*          *00*          *ZZ*"+senderID+"*ZZ*"+recvID+"*"+strDate+"*"+strtime+"*+*00501*000121901*0*T*:~\n" + 
-	            		"GS*HI*"+senderID+"*"+recvID+"*"+Date+"*"+strfulltime+"*121901*X*005010X217~\n";
-	            return header; //replace T to P in prod environment
-	    }
-	    public String getTrailer() {
-	    	String trailer = "GE*1*121901~\n"+
-	    			"IEA*1*000121901~\n";
-	            return trailer;
-	    }
-
-	public void writeEDItoXML() {
-		X12005010X217278A1 subelement = new X12005010X217278A1();
-		STTransactionSetHeader stHeader = new STTransactionSetHeader();
-		stHeader.setST01TransactionSetIdentifierCode("278");
-		stHeader.setST02TransactionSetControlNumber("121901");
-		stHeader.setST03ImplementationGuideVersionName("005010X217");
-		subelement.setSTTransactionSetHeader(stHeader);
-		BHTBeginningOfHierarchicalTransaction bhtelement = new BHTBeginningOfHierarchicalTransaction();
-		bhtelement.setBHT01HierarchicalStructureCode("0007");
-		bhtelement.setBHT02TransactionSetPurposeCode("13");
-		bhtelement.setBHT03SubmitterTransactionIdentifier("000121901");
-		Date date = Calendar.getInstance().getTime();
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		String strDate = dateFormat.format(date);
-		bhtelement.setBHT04TransactionSetCreationDate(strDate);
-		DateFormat timeFormat = new SimpleDateFormat("HHmmss");
-		String strtime = timeFormat.format(date);
-		bhtelement.setBHT05TransactionSetCreationTime(strtime);
-		subelement.setBHTBeginningOfHierarchicalTransaction(bhtelement);
-		Loop2000A rcloopelement = new Loop2000A();
-		HLUtilizationManagementOrganizationUMOLevel2000A hlrcelemet = new HLUtilizationManagementOrganizationUMOLevel2000A();
-		hlrcelemet.setHL01HierarchicalIDNumber("1");
-		hlrcelemet.setHL02("");
-		hlrcelemet.setHL03HierarchicalLevelCode("20");
-		hlrcelemet.setHL04HierarchicalChildCode("1");
-		rcloopelement.setHLUtilizationManagementOrganizationUMOLevel2000A(hlrcelemet);
-		Loop2010A loop2010a = new Loop2010A();
-		NM1UtilizationManagementOrganizationUMOName2010A nmrcelement = new NM1UtilizationManagementOrganizationUMOName2010A();
-		nmrcelement.setNM101EntityIdentifierCode("X3");
-		nmrcelement.setNM102EntityTypeQualifier("2");
-		nmrcelement.setNM103UtilizationManagementOrganizationUMOLastOrOrganizationName("CGS");// replaceRC Name
-		nmrcelement.setNM104UtilizationManagementOrganizationUMOFirstName("");
-		nmrcelement.setNM105UtilizationManagementOrganizationUMOMiddleName("");
-		nmrcelement.setNM106("");
-		nmrcelement.setNM107UtilizationManagementOrganizationUMONameSuffix("");
-		nmrcelement.setNM108IdentificationCodeQualifier("PI");
-		nmrcelement.setNM109UtilizationManagementOrganizationUMOIdentifier("15004"); // replace workload number
-		loop2010a.setNM1UtilizationManagementOrganizationUMOName2010A(nmrcelement);
-		rcloopelement.setLoop2010A(loop2010a);
-		Loop2000B requesterloopelement = new Loop2000B();
-		HLRequesterLevel2000B hlrequester = new HLRequesterLevel2000B();
-		hlrequester.setHL01HierarchicalIDNumber("2");
-		hlrequester.setHL02HierarchicalParentIDNumber("1");
-		hlrequester.setHL03HierarchicalLevelCode("21");
-		hlrequester.setHL04HierarchicalChildCode("1");
-		requesterloopelement.setHLRequesterLevel2000B(hlrequester);
-		Loop2010B reqnameelement = new Loop2010B();
-		NM1RequesterName2010B nm1reqnameelement = new NM1RequesterName2010B();
-		nm1reqnameelement.setNM101EntityIdentifierCode("1P"); // replace requester 1P or FA
-		nm1reqnameelement.setNM102EntityTypeQualifier("2"); // replace with size of org
-		nm1reqnameelement.setNM103RequesterLastOrOrganizationName("Unitypoint at Home"); // replace requester last org
-																							// name
-		nm1reqnameelement.setNM104RequesterFirstName("");
-		nm1reqnameelement.setNM105RequesterMiddleName("");
-		nm1reqnameelement.setNM106("");
-		nm1reqnameelement.setNM107RequesterNameSuffix("");
-		nm1reqnameelement.setNM108IdentificationCodeQualifier("XX");
-		nm1reqnameelement.setNM109RequesterIdentifier("142351956"); // replace requester NPI
-		reqnameelement.setNM1RequesterName2010B(nm1reqnameelement);
-		N3RequesterAddress2010B n3reqaddrelement = new N3RequesterAddress2010B();
-		n3reqaddrelement.setN301RequesterAddressLine("106 19th Ave 101"); // replace requester addr line1
-		/// replace if req addr line 2 presetn
-
-		reqnameelement.setN3RequesterAddress2010B(n3reqaddrelement);
-		N4RequesterCityStateZIPCode2010B n4reqaddrcityzip = new N4RequesterCityStateZIPCode2010B();
-		n4reqaddrcityzip.setN401RequesterCityName("Moline"); // replace requester city name
-		n4reqaddrcityzip.setN402RequesterStateOrProvinceCode("IL"); // replace requester
-		n4reqaddrcityzip.setN403RequesterPostalZoneOrZIPCode("61265"); // replace requester
-		reqnameelement.setN4RequesterCityStateZIPCode2010B(n4reqaddrcityzip);
-		// PER*IC*Carrie Smith*TE*8035555555~
-		PERRequesterContactInformation2010B reqperinfo = new PERRequesterContactInformation2010B();
-		reqperinfo.setPER01ContactFunctionCode("IC");
-		reqperinfo.setPER02RequesterContactName("Jon Dow"); // replace requester contact name
-		reqperinfo.setPER03CommunicationNumberQualifier("TE");
-		reqperinfo.setPER04RequesterContactCommunicationNumber("5555555555"); // repkace requester ph number
-		reqnameelement.setPERRequesterContactInformation2010B(reqperinfo);
-		requesterloopelement.setLoop2010B(reqnameelement);
-		Loop2000C subloopelement = new Loop2000C();
-		HLSubscriberLevel2000C hlsubelemet = new HLSubscriberLevel2000C();
-		hlsubelemet.setHL01HierarchicalIDNumber("3");
-		hlsubelemet.setHL02HierarchicalParentIDNumber("2");
-		hlsubelemet.setHL03HierarchicalLevelCode("22");
-		hlsubelemet.setHL04HierarchicalChildCode("1");
-		subloopelement.setHLSubscriberLevel2000C(hlsubelemet);
-
-		subloopelement.setLoop2010C(SetSubscriberInfo());
-		subloopelement.setLoop2000E(setPatientEventLevelInfo());
-
-		requesterloopelement.setLoop2000C(subloopelement);
-
-		rcloopelement.setLoop2000B(requesterloopelement);
-
-		subelement.setLoop2000A(rcloopelement);
-		SETransactionSetTrailer seTransTrailer = new SETransactionSetTrailer();
-		seTransTrailer.setSE01TransactionSegmentCount("32");
-		seTransTrailer.setSE02TransactionSetControlNumber("121901");
-		subelement.setSETransactionSetTrailer(seTransTrailer);
-		try {
-			// Create JAXB Context
-			JAXBContext jaxbContext = JAXBContext.newInstance(X12005010X217278A1.class);
-
-			// Create Marshaller
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-			// Required formatting??
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-			// Print XML String to Console
-			StringWriter sw = new StringWriter();
-			// subelement
-			// Write XML to StringWriter
-			jaxbMarshaller.marshal(subelement, sw);
-			String xmlContent = sw.toString();
-			System.out.println("XML string is" + xmlContent);
-			/*
-			 * DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			 * DocumentBuilder builder = factory.newDocumentBuilder(); ByteArrayInputStream
-			 * input = new ByteArrayInputStream( xmlContent.getBytes("UTF-8")); Document doc
-			 * = builder.parse(input);
-			 */
-			// doc.getDocumentElement().normalize();
-			XMLtoEDIWriter ediwriterobj = new XMLtoEDIWriter();
-			 String Header = "";
-	            String Trailer = "";
-	            String senderID = "360373";
-	            String origsenderID = senderID;
-	            while(senderID.length() <= 15) {
-	            	senderID = senderID + " ";
+	            // 1. You can obtain a rowIterator and columnIterator and iterate over them
+	            System.out.println("\n\nIterating over Rows and Columns using Iterator\n");
+	            Iterator<Row> rowIterator = sheet.rowIterator();
+	            while (rowIterator.hasNext()) {
+	                Row row = rowIterator.next();
+                    
+	                // Now let's iterate over the columns of the current row
+	                Iterator<Cell> cellIterator = row.cellIterator();
+	                
+                   int count = 0;
+                   String key = "", value = "";
+	                while (cellIterator.hasNext()) {
+	                    Cell cell = cellIterator.next();
+	                    String cellValue = dataFormatter.formatCellValue(cell);
+	                    String trimmerVal = cellValue.trim();
+	                //    System.out.print(trimmerVal + "\t");
+	                    if(count == 0) {
+	                    	key = trimmerVal;
+	                    }else {
+	                    	value = trimmerVal;
+	                    }
+	                    count++;
+	                }
+	                if(!value.equals("")) {
+	                 inputVals.put(key, value);
+	                System.out.println("key is"+key+"value is"+value);
+	                }
 	            }
-	            String receiverID = "111222001";
-	            String origreceiverID = receiverID; 
-	            while(receiverID.length() <= 15) {
-	            	receiverID = receiverID + " ";
-	            }
-	          
-	            Date currdate = Calendar.getInstance().getTime();
-	            DateFormat dateFormatter = new SimpleDateFormat("yyyyMMdd");
-	            String currstrDate = dateFormatter.format(currdate);
-	            
-	             Header = getHeader(origsenderID,senderID,origreceiverID,receiverID,currstrDate);
-	             Trailer = getTrailer();
-	            
-			String edi = ediwriterobj.WriteXMLtoEDI(xmlContent,Header,Trailer);
-			System.out.println("EDI String is " + edi);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// Loop2010C hlloop
-		// subloopelement.setLoop2010C();
-		// .setLoop2000C();
 
-	}
-
-	public void parseEDI(String Text) {
-		StringTokenizer st1 = new StringTokenizer(Text, "\n");
-		String prevSegment = null;
-		boolean bRequesterSeg = false, bSubscriberSeg = false, bRecvSeg = false, bEventSeg = false,
-				bProviderSeg = false, bServicelvlSeg = false;
-		while (st1.hasMoreTokens()) {
-			String currSegment = st1.nextToken();
-			if (currSegment.startsWith("ISA") || currSegment.startsWith("GS") || currSegment.startsWith("ST")
-					|| currSegment.startsWith("SE") || currSegment.startsWith("GE") || currSegment.startsWith("IEA")) {
-
-			} else if (currSegment.startsWith("BHT")) {
-
-			} else if (currSegment.startsWith("HL*1")) {
-				bRecvSeg = true;
-			} else if (currSegment.startsWith("HL*2")) {
-				bRecvSeg = false;
-				bRequesterSeg = true;
-			} else if (currSegment.startsWith("HL*3")) {
-				bRequesterSeg = false;
-				bSubscriberSeg = true;
-			} else if (currSegment.startsWith("HL*4")) {
-				bSubscriberSeg = false;
-				bEventSeg = true;
-			} else if (bEventSeg && currSegment.startsWith("NM1")) {
-				bEventSeg = false;
-				bProviderSeg = true;
-			} else if (currSegment.startsWith("HL*5")) {
-				bProviderSeg = false;
-				bServicelvlSeg = true;
-			} else {
-				if (bEventSeg) {
-					if (currSegment.startsWith("TRN*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						System.out.println("Segment str is" + trnStr);
-						StringTokenizer trnStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (trnStrTokenizer.hasMoreTokens()) {
-							String trnToken = trnStrTokenizer.nextToken();
-							// System.out.println("Token is"+trnToken);
-							count++;
-							if (count == 3) {
-								System.out.println("Transaction ID is" + trnToken);
-								break;
-							} else if (count == 2) {
-								if (trnToken.equals("1")) {
-									System.out.println("esMD transaction ID Sent");
-								} else if (trnToken.equals("2")) {
-									break;
-								}
-							}
-						}
-					} else if (currSegment.startsWith("AAA*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						StringTokenizer AAAStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (AAAStrTokenizer.hasMoreTokens()) {
-							String trnToken = AAAStrTokenizer.nextToken();
-							count++;
-							if (count == 4) {
-								System.out.println("Receiver Loop AAA error reject reason code " + trnToken);
-							} else if (count == 5) {
-								System.out.println("Receiver Loop AAA error follow up action code" + trnToken);
-							}
-						}
-					} else if (currSegment.startsWith("HCR*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						StringTokenizer HCRStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (HCRStrTokenizer.hasMoreTokens()) {
-							String trnToken = HCRStrTokenizer.nextToken();
-							count++;
-							if (count != 1) {
-								System.out.println("HCR segment elemts are" + trnToken);
-							}
-
-						}
-					} else if (currSegment.startsWith("REF*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						StringTokenizer REFStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (REFStrTokenizer.hasMoreTokens()) {
-							String trnToken = REFStrTokenizer.nextToken();
-							count++;
-							if (count == 3) {
-								System.out.println("UTN value is" + trnToken);
-							}
-
-						}
-					} else if (currSegment.startsWith("MSG*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						StringTokenizer MSGStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (MSGStrTokenizer.hasMoreTokens()) {
-							String trnToken = MSGStrTokenizer.nextToken();
-							count++;
-							if (count == 2) {
-								System.out.println("MSG value is" + trnToken);
-							}
-
-						}
-					}
-				}
-				if (bProviderSeg) {
-					if (currSegment.startsWith("AAA*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						StringTokenizer AAAStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (AAAStrTokenizer.hasMoreTokens()) {
-							String trnToken = AAAStrTokenizer.nextToken();
-							count++;
-							if (count == 4) {
-								System.out.println("Receiver Loop AAA error reject reason code " + trnToken);
-							} else if (count == 5) {
-								System.out.println("Receiver Loop AAA error follow up action code" + trnToken);
-							}
-						}
-					}
-				}
-				if (bRecvSeg || bRequesterSeg || bSubscriberSeg) {
-					if (currSegment.startsWith("AAA*")) {
-						int len = currSegment.length();
-						String trnStr = currSegment.substring(0, len - 1);
-						StringTokenizer AAAStrTokenizer = new StringTokenizer(trnStr, "*");
-						int count = 0;
-						while (AAAStrTokenizer.hasMoreTokens()) {
-							String trnToken = AAAStrTokenizer.nextToken();
-							count++;
-							if (count == 4) {
-								System.out.println("Receiver Loop AAA error reject reason code " + trnToken);
-							} else if (count == 5) {
-								System.out.println("Receiver Loop AAA error follow up action code" + trnToken);
-							}
-						}
-					}
-				}
-			}
-
-			if (bServicelvlSeg) {
-				if (currSegment.startsWith("TRN*")) {
-					int len = currSegment.length();
-					String trnStr = currSegment.substring(0, len - 1);
-					StringTokenizer TRNStrTokenizer = new StringTokenizer(trnStr, "*");
-					int count = 0;
-					while (TRNStrTokenizer.hasMoreTokens()) {
-						String trnToken = TRNStrTokenizer.nextToken();
-						count++;
-						if (count != 1) {
-							System.out.println("TRN Token in Service loop " + trnToken);
-						}
-					}
-				} else if (currSegment.startsWith("AAA*")) {
-					int len = currSegment.length();
-					String trnStr = currSegment.substring(0, len - 1);
-					StringTokenizer AAAStrTokenizer = new StringTokenizer(trnStr, "*");
-					int count = 0;
-					while (AAAStrTokenizer.hasMoreTokens()) {
-						String trnToken = AAAStrTokenizer.nextToken();
-						count++;
-						if (count == 4) {
-							System.out.println("Receiver Loop AAA error reject reason code " + trnToken);
-						} else if (count == 5) {
-							System.out.println("Receiver Loop AAA error follow up action code" + trnToken);
-						}
-					}
-				} else if (currSegment.startsWith("HCR*")) {
-					int len = currSegment.length();
-					String trnStr = currSegment.substring(0, len - 1);
-					StringTokenizer HCRStrTokenizer = new StringTokenizer(trnStr, "*");
-					int count = 0;
-					while (HCRStrTokenizer.hasMoreTokens()) {
-						String trnToken = HCRStrTokenizer.nextToken();
-						count++;
-						if (count != 1) {
-							System.out.println("HCR segment elemts are" + trnToken);
-						}
-
-					}
-				} else if (currSegment.startsWith("REF*")) {
-					int len = currSegment.length();
-					String trnStr = currSegment.substring(0, len - 1);
-					StringTokenizer REFStrTokenizer = new StringTokenizer(trnStr, "*");
-					int count = 0;
-					while (REFStrTokenizer.hasMoreTokens()) {
-						String trnToken = REFStrTokenizer.nextToken();
-						count++;
-						if (count == 3) {
-							System.out.println("UTN value is" + trnToken);
-						}
-
-					}
-				} else if (currSegment.startsWith("MSG*")) {
-					int len = currSegment.length();
-					String trnStr = currSegment.substring(0, len - 1);
-					StringTokenizer MSGStrTokenizer = new StringTokenizer(trnStr, "*");
-					int count = 0;
-					while (MSGStrTokenizer.hasMoreTokens()) {
-						String trnToken = MSGStrTokenizer.nextToken();
-						count++;
-						if (count == 2) {
-							System.out.println("MSG value is" + trnToken);
-						}
-
-					}
-				} else if (currSegment.startsWith("HL*")) {
-					System.out.println("Next Service Line");
-				}
-			}
-		}
-	}
+	        }catch(Exception e){
+	          e.printStackTrace();
+	        }
+	        return inputVals;
+	    }*/
+	
 
 }

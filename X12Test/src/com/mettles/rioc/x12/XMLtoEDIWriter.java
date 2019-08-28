@@ -49,7 +49,7 @@ public class XMLtoEDIWriter {
                          }else
                          XML2EDI = XML2EDI + temp + "*";
                      }
-                     XML2EDI = XML2EDI + "~\n";
+                     XML2EDI = XML2EDI + "~"+System.getProperty("line.separator");
         		   
         	   }else if(childList.getTagName().startsWith("IEA_InterchangeControl")) {
         		     Element[] attrNodeMap =  XMLUtil.getChildElements(childList);
@@ -72,7 +72,7 @@ public class XMLtoEDIWriter {
                          }else
                          XML2EDI = XML2EDI + temp + "*";
                      }
-                     XML2EDI = XML2EDI + "~\n";
+                     XML2EDI = XML2EDI + "~"+ System.getProperty("line.separator");
         	   }else if(childList.getTagName().startsWith("X12_FunctionalG")) {
         		   Element[] attrNodeMap =  XMLUtil.getChildElements(childList);
         		   for(int x12idx = 0; x12idx < attrNodeMap.length;x12idx++) {
@@ -98,7 +98,7 @@ public class XMLtoEDIWriter {
                                  }else
                                  XML2EDI = XML2EDI + temp + "*";
                              }
-                             XML2EDI = XML2EDI + "~\n";
+                             XML2EDI = XML2EDI + "~"+ System.getProperty("line.separator");
         			    }else if(x12fungList.getTagName().startsWith("GS_FunctionalGrou")) {
         			    	 Element[] attrNodeMapfung =  XMLUtil.getChildElements(x12fungList);
 
@@ -120,7 +120,7 @@ public class XMLtoEDIWriter {
                                  }else
                                  XML2EDI = XML2EDI + temp + "*";
                              }
-                             XML2EDI = XML2EDI + "~\n";
+                             XML2EDI = XML2EDI + "~"+ System.getProperty("line.separator");
         			    }else if(x12fungList.getTagName().startsWith("X12_Transaction")) {
         			    	  Element[] childNodes =  XMLUtil.getChildElements(x12fungList);
         			        for (int i = 0; i < childNodes.length; i++) {
@@ -152,7 +152,7 @@ public class XMLtoEDIWriter {
         			                           }else
         			                           XML2EDI = XML2EDI + temp + "*";
         			                       }
-        			                       XML2EDI = XML2EDI + "~\n";
+        			                       XML2EDI = XML2EDI + "~"+ System.getProperty("line.separator");
         			                       segmentcount++;
         			                   }
 
@@ -209,7 +209,7 @@ public class XMLtoEDIWriter {
 	                            }else
 	                            XML2EDI = XML2EDI + temp + "*";
 	                        }
-	                        XML2EDI = XML2EDI + "~\n";
+	                        XML2EDI = XML2EDI + "~";
 	                        segmentcount++;
 	                    }
 
@@ -245,9 +245,11 @@ public class XMLtoEDIWriter {
 	                    			  childnodestr = childattrNodeMap[l].getTextContent();
 	                    		  }
 	                    	  }
-	                    	  if( childattrNodeMap.length != 0)
-	                    	   XML2EDI = XML2EDI +childnodestr; 
-	                    	  else {
+	                    	  if( childattrNodeMap.length != 0  & k != attrNodeMap.length-1)
+	                    	   XML2EDI = XML2EDI +childnodestr+"*"; 
+	                    	  else if(childattrNodeMap.length != 0  & k == attrNodeMap.length-1)
+	                    		  XML2EDI = XML2EDI +childnodestr; 
+	                    	  else if( childattrNodeMap.length == 0 ) {
 	                    		 // XML2EDI = XML2EDI + childelement.getTextContent() + "*"; 
 	                    		  if(k== attrNodeMap.length-1) {
 		                            	 XML2EDI = XML2EDI + childelement.getTextContent() ;
@@ -264,7 +266,7 @@ public class XMLtoEDIWriter {
 	                    
 	                 
 	                }
-	                XML2EDI = XML2EDI + "~\n";
+	                XML2EDI = XML2EDI + "~"+ System.getProperty("line.separator");
 	                segmentcount++;
 	            }
 	        }

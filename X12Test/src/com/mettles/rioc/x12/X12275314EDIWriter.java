@@ -45,15 +45,15 @@ import com.mettles.rioc.x12275314.Loop2110B;
 
 public class X12275314EDIWriter {
 
-	public void CreateEDI() {
-		String xmlstring = GenerateXML();
+	public void CreateEDI(UnSolicitedPWKElems unsolPWKInfo, String senderEDId, String rcvrEDID) {
+		String xmlstring = GenerateXML(unsolPWKInfo, senderEDId, rcvrEDID);
 		XMLtoEDIWriter ediwriterobj = new XMLtoEDIWriter();
 		String edi = ediwriterobj.Write275XMLtoEDI(xmlstring);
 		System.out.println("EDI String is " + edi);
 		
 	}
 	
-	public String GenerateXML() {
+	public String GenerateXML(UnSolicitedPWKElems unsolPWKInfo, String senderEDId, String rcvrEDID) {
 		String xmlcontent = "";
 		X12006020X314275A9 x12275obj = new X12006020X314275A9();
 		X12Interchange isaexchng = new X12Interchange();

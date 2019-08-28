@@ -26,8 +26,14 @@ import com.company.rioc.ack999.IK5TransactionSetResponseTrailer2000;
 import com.company.rioc.ack999.SETransactionSetTrailer;
 
 public class AckReadWriter {
+	
+	public static String x12278controlnum = "121901";
+	public static String x12275controlnum = "104142";
+	public static String x12999controlnum = "000000001";
+	public static String x12999grpnum = "1";
 
-	public void writeAck() {
+	public String writeAck(boolean bX12278, String senderEDIID, String rcvrEDIID) {
+		String edi = null;
 		X12005010X231A1999A1 ack999 = new X12005010X231A1999A1();
 		STTransactionSetHeader stheader = new STTransactionSetHeader();
 		stheader.setST01TransactionSetIdentifierCode("999");
@@ -35,14 +41,24 @@ public class AckReadWriter {
 		stheader.setST03ImplementationConventionReference("005010X231A1");
 		ack999.setSTTransactionSetHeader(stheader);
 		AK1FunctionalGroupResponseHeader akheader = new AK1FunctionalGroupResponseHeader();
+		if(bX12278) {
 		akheader.setAK101FunctionalIdentifierCode("HI"); //replace it for 278 or 275
-		akheader.setAK102GroupControlNumber("121901");
+		akheader.setAK102GroupControlNumber(x12278controlnum);
+		}else {
+			akheader.setAK101FunctionalIdentifierCode("PI"); //replace it for 278 or 275
+			akheader.setAK102GroupControlNumber(x12275controlnum);
+		}
 		akheader.setAK103VersionReleaseOrIndustryIdentifierCode("005010X217");
 		ack999.setAK1FunctionalGroupResponseHeader(akheader);
 		Loop2000 loop2000 = new Loop2000();
 		AK2TransactionSetResponseHeader2000 respheaderloop = new AK2TransactionSetResponseHeader2000();
+		if(bX12278) {
 		respheaderloop.setAK201TransactionSetIdentifierCode("278");
-		respheaderloop.setAK202TransactionSetControlNumber("121901");
+		respheaderloop.setAK202TransactionSetControlNumber(x12278controlnum);
+		}else {
+			respheaderloop.setAK201TransactionSetIdentifierCode("275");
+			respheaderloop.setAK202TransactionSetControlNumber(x12275controlnum);
+		}
 		respheaderloop.setAK203ImplementationConventionReference("005010X217");
 		loop2000.setAK2TransactionSetResponseHeader2000(respheaderloop);
 		// loop2000.getLoop2100().add(e) add loop2100 in case of errors
@@ -87,14 +103,14 @@ public class AckReadWriter {
 			XMLtoEDIWriter ediwriterobj = new XMLtoEDIWriter();
 			 String Header = "";
 	            String Trailer = "";
-	            String senderID = "360373";
+	            String senderID = senderEDIID;
 	            String origsenderID = senderID;
-	            while(senderID.length() <= 15) {
+	            while(senderID.length() < 15) {
 	            	senderID = senderID + " ";
 	            }
-	            String receiverID = "111222001";
+	            String receiverID = rcvrEDIID;
 	            String origreceiverID = receiverID; 
-	            while(receiverID.length() <= 15) {
+	            while(receiverID.length() < 15) {
 	            	receiverID = receiverID + " ";
 	            }
 	          
@@ -104,11 +120,12 @@ public class AckReadWriter {
 	            
 	             Header = getHeader(origsenderID,senderID,origreceiverID,receiverID,currstrDate);
 	             Trailer = getTrailer();
-			String edi = ediwriterobj.WriteXMLtoEDI(xmlContent,Header,Trailer);
+			 edi = ediwriterobj.WriteXMLtoEDI(xmlContent,Header,Trailer);
 			System.out.println("EDI String is " + edi);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return edi;
 	}
 	  public String getHeader(String senderIDorig, String senderID, String recvIDorig, String recvID, String Date) {
 	        Date date = Calendar.getInstance().getTime();
@@ -118,18 +135,18 @@ public class AckReadWriter {
 	        String strtime = timeFormat.format(date); 
 	        DateFormat fulltimeFormat = new SimpleDateFormat("HHmmssSS");
 	        String strfulltime = fulltimeFormat.format(date); 
-	    	String header = "ISA*00*          *00*          *ZZ*"+senderID+"*ZZ*"+recvID+"*"+strDate+"*"+strtime+"*+*00501*000121901*0*T*:~\n" + 
-	            		"GS*HI*"+senderID+"*"+recvID+"*"+Date+"*"+strfulltime+"*121901*X*005010X231A1~\n";
+	    	String header = "ISA*00*          *00*          *ZZ*"+senderID+"*ZZ*"+recvID+"*"+strDate+"*"+strtime+"*+*00501*"+x12999controlnum+"*0*T*:~\n" + 
+	            		"GS*HI*"+senderID+"*"+recvID+"*"+Date+"*"+strtime+"*"+x12999grpnum+"*X*005010X231A1~\n";
 	            return header; //replace T to P in prod environment
 	    }
 	    public String getTrailer() {
-	    	String trailer = "GE*1*121901~\n"+
-	    			"IEA*1*000121901~\n";
+	    	String trailer = "GE*1*"+x12999grpnum+"~\n"+
+	    			"IEA*1*"+x12999controlnum+"~\n";
 	            return trailer;
 	    }
 
 	public EDIErrorInfo parse999EDI(String Text) {
-		StringTokenizer st1 = new StringTokenizer(Text, "\r\n");
+		StringTokenizer st1 = new StringTokenizer(Text, System.getProperty("line.separator"));
 
 		EDIErrorInfo edierr = new EDIErrorInfo();
 		ArrayList<SegLvlErrInfo> errors = new ArrayList<>();
@@ -140,7 +157,23 @@ public class AckReadWriter {
 			if (currSegment.startsWith("ISA") || currSegment.startsWith("GS") || currSegment.startsWith("ST")
 					|| currSegment.startsWith("SE") || currSegment.startsWith("GE") || currSegment.startsWith("IEA")
 					|| currSegment.startsWith("AK1")) {
-
+             if(currSegment.startsWith("GS")) {
+            		int len = currSegment.length();
+    				String trnStr = currSegment.substring(0, len - 1);
+    				System.out.println("Segment str is" + trnStr);
+    				StringTokenizer trnStrTokenizer = new StringTokenizer(trnStr, "*");
+    				int count = 0;
+    				while (trnStrTokenizer.hasMoreTokens()) {
+    					String trnToken = trnStrTokenizer.nextToken();
+    					// System.out.println("Token is"+trnToken);
+    					count++;
+    					if(count == 3)
+    						edierr.setSenderId(trnToken);
+    					else if(count == 4)
+    						edierr.setRcvrId(trnToken);
+    				}
+             }
+				
 			} else if (currSegment.startsWith("IK3")) {
 				int len = currSegment.length();
 				String trnStr = currSegment.substring(0, len - 1);
